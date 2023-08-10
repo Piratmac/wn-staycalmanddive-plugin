@@ -1,0 +1,27 @@
+.form-group.span-full.divecalc_center, .divecalc_center {
+    float:right;
+    margin-right:5%;
+}
+.form-group.span-full.divecalc_right, .divecalc_right {
+    float:right;
+}
+.form-group.span-full.divecalc_left, .divecalc_left,
+.form-group.span-full.divecalc_center, .divecalc_center,
+.form-group.span-full.divecalc_right, .divecalc_right {
+    width:30%;
+}
+
+.dive_data.divecalc_left {
+    float:left;
+}
+
+.dive_data td {
+    text-indent: 20px;
+}
+.dive_data td:last-child {
+    text-align: right;
+}
+
+.data-point-label-final {
+    text-align:right;
+}

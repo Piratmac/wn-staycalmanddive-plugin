@@ -1,0 +1,167 @@
+
+    <div class="control-status-list">
+        <ul>
+        <?php foreach ($calculationWarnings as $dive => $warnings) {
+            foreach ($warnings as $field => $warning) {
+            ?>
+        <li><span class="status-text warning"><?php echo $warning; ?></span></li>
+        <?php }
+        } ?>
+        </ul>
+    </div>
+
+<?php if (count($dots) == 2) { ?>
+    <div
+        id="dive2_chart"
+        style="height: 250px"
+        class="divecalc_right"
+        >
+        <span
+            data-chart="dataset"
+            data-set-color="#008dc9"
+            data-set-data='<?php echo $dots[1]; ?>'
+            data-set-data-labels='<?php echo $dots_labels[1]; ?>'>
+        </span>
+    </div>
+<?php }
+
+
+
+?>
+
+    <div
+        id="dive1_chart"
+        style="height: 250px"
+        class="divecalc_left"
+        >
+        <span
+            data-chart="dataset"
+            data-set-color="#008dc9"
+            data-set-data='<?php echo $dots[0]; ?>'
+            data-set-data-labels='<?php echo $dots_labels[0]; ?>'>
+        </span>
+    </div>
+
+<?php
+foreach ($data_table as $type => $values) {
+    ?>
+    <table class="divecalc_<?php echo ($type=='dive1')?'left':(($type=='dive2')?'right':'center'); ?> table dive_data">
+    <?php foreach ($values as $id => $val) {
+        foreach ($val as $label => $value) { ?>
+        <tr>
+            <?php if ($value == '') { ?>
+            <th colspan="2"><?php echo $label; ?>
+            </th>
+            <?php } else { ?>
+            <td><?php echo $label; ?>
+            </td>
+            <td><?php echo $value; ?>
+            </td>
+            <?php } ?>
+        </tr>
+    <?php } } ?>
+    </table>
+<?php
+}
+?>
+
+
+<style type="text/css">
+.data-point-label {
+	font-size: 12px;
+}
+#flotTip {
+ color:black;
+}
+</style>
+
+<script type="text/javascript">
+function invertYAxis (v) { return -v; }
+
+
+// Shared elements
+var chartOptions = {
+    xaxis: {
+        mode: "time",
+        timeformat: "%H:%M",
+    },
+    yaxis: {
+        transform: invertYAxis,
+        inverseTransform: invertYAxis
+    },
+    grid: {
+        markingsColor:   "rgba(0,0,0, 0.02)",
+        borderWidth:     0,
+        color:           "#aaa",
+        hoverable:       true,
+        clickable:       true,
+        minBorderMargin: 30,
+        labelMargin:     35,
+    },
+    series: {
+        lines: {
+            fill: true,
+            fillColor: 'rgb(173,216,230, 0.5)',
+        },
+        points: {
+            show: false
+        },
+        color: 'rgb(0,0,255, 0.3)',
+    },
+    tooltip: true,
+    tooltipOpts: {
+        content:      "%x: <strong>%y m</strong>",
+        timeformat:   "%H:%M:%S",
+    },
+    legend: {
+        show: false
+    }
+};
+
+dataLabelDisplay = function (i, el) {
+    var o = chart.pointOffset({x: el[0], y: el[1]});
+
+    var topOffset = 0;
+    var leftOffset = 0;
+    var addedClass = '';
+    if (el[3] == 'final') {
+        topOffset = -70;
+        leftOffset = -50;
+        addedClass = 'data-point-label-final';
+    }
+    else if (el[3] == 'aboveleft') {
+        topOffset = -20;
+        leftOffset = -30;
+    }
+    else if (el[3] == 'above') {
+        topOffset = -20;
+        leftOffset = -10;
+    }
+    else {
+        topOffset = 5;
+        leftOffset = -10;
+    }
+
+    $('<div class="data-point-label ' + addedClass + '">' + el[2] + '</div>').css( {
+        position: 'absolute',
+        left: o.left + leftOffset,
+        top: o.top + topOffset,
+    }).appendTo(chart.getPlaceholder());
+}
+
+
+// Generate chart
+var nb_dives = 1;
+if ($('#dive2_chart').length)
+    nb_dives = 2;
+
+for (i = 1; i <= nb_dives; i++) {
+    var data = JSON.parse('['+$('#dive'+i+'_chart').find('>[data-chart="dataset"]')[0].dataset.setData+']');
+    var dataLabels = JSON.parse($('#dive'+i+'_chart').find('>[data-chart="dataset"]')[0].dataset.setDataLabels);
+    var chart = $.plot($('#dive'+i+'_chart')[0], data, chartOptions);
+    $.each(dataLabels, dataLabelDisplay);
+}
+
+
+</script>
+

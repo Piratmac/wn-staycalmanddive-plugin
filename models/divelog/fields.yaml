@@ -1,0 +1,510 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+
+# Main section
+    _main:
+        type: section
+        label: 'piratmac.staycalmanddive::lang.form.parameters'
+
+    multiple_dives:
+        label: 'piratmac.staycalmanddive::lang.form.multiple_dives'
+        type: switch
+
+    advanced_parameters:
+        label: 'piratmac.staycalmanddive::lang.form.advanced_parameters'
+        type: switch
+
+    use_nitrox:
+        label: 'piratmac.staycalmanddive::lang.form.use_nitrox'
+        type: switch
+        trigger:
+            action: hide|empty
+            field: advanced_parameters
+            condition: unchecked
+
+    max_oxygen_pressure:
+        label: 'piratmac.staycalmanddive::lang.form.max_oxygen_pressure'
+        type: number
+        default: 1.6
+        min: 1.4
+        max: 1.6
+        trigger:
+            action: hide|empty
+            field: use_nitrox
+            condition: unchecked
+    use_oxygen:
+        label: 'piratmac.staycalmanddive::lang.form.use_oxygen'
+        type: switch
+        trigger:
+            action: hide|empty
+            field: advanced_parameters
+            condition: unchecked
+
+
+#tabs:
+#    default#tab: 'piratmac.staycalmanddive::lang.dive.first_dive'
+#    stretch: false
+#    fields:
+
+
+
+# Dive 2 - CSS will move it to the right
+
+    _dive2_start:
+        type: partial
+        path: $/piratmac/staycalmanddive/partials/_field_group_start.htm
+        trigger:
+            action: show
+            field: multiple_dives
+            condition: checked
+        cssClass: divecalc_right
+
+    _dive2:
+        type: section
+        label: 'piratmac.staycalmanddive::lang.dive.second_dive'
+
+    dive2[start_time]:
+        label: 'piratmac.staycalmanddive::lang.form.start_time'
+        type: Backend\FormWidgets\DatePicker
+        default: 14:00
+        mode: time
+        ignoreTimezone: true
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+        trigger:
+            action: hide|empty
+            field: interval[use_interval_duration]
+            condition: checked
+        required: true
+
+    dive2[duration]:
+        label: 'piratmac.staycalmanddive::lang.form.dive_duration'
+        comment: 'piratmac.staycalmanddive::lang.form.dive_duration_notes'
+        type: number
+        step: 1
+        min: 1
+        max: 360
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+        required: true
+
+    dive2[max_depth]:
+        label: 'piratmac.staycalmanddive::lang.form.max_depth'
+        type: number
+        step: 1
+        min: 1
+        max: 65
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+        required: true
+
+    dive2[depth_when_ascent_starts]:
+        label: 'piratmac.staycalmanddive::lang.form.depth_when_ascent_starts'
+        comment: 'piratmac.staycalmanddive::lang.form.depth_when_ascent_starts_notes'
+        type: number
+        step: 1
+        min: 1
+        max: 65
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+
+    dive2[use_oxygen]:
+        label: 'piratmac.staycalmanddive::lang.form.oxygen_at_stops'
+        type: switch
+        trigger:
+            action: hide|empty
+            field: use_oxygen
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+
+    dive2[nitrox_ratio]:
+        label: 'piratmac.staycalmanddive::lang.form.nitrox_ratio'
+        type: number
+        step: 1
+        min: 1
+        max: 99
+        trigger:
+            action: hide|empty
+            field: use_nitrox
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+        required: true
+
+    dive2[air_nitrogen_ratio]:
+        label: 'piratmac.staycalmanddive::lang.form.air_nitrogen_ratio'
+        type: number
+        step: 1
+        min: 75
+        max: 85
+        default: 79
+        trigger:
+            action: hide|empty
+            field: use_nitrox
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+
+    dive2[interrupted_stop]:
+        label: 'piratmac.staycalmanddive::lang.form.interrupted_stop'
+        type: switch
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+
+    dive2[interrupted_stop_depth]:
+        label: 'piratmac.staycalmanddive::lang.form.interrupted_stop_depth'
+        type: dropdown
+        options:
+            3: 'piratmac.staycalmanddive::lang.various.depth_value_3m'
+            6: 'piratmac.staycalmanddive::lang.various.depth_value_6m'
+            9: 'piratmac.staycalmanddive::lang.various.depth_value_9m'
+            12: 'piratmac.staycalmanddive::lang.various.depth_value_12m'
+            15: 'piratmac.staycalmanddive::lang.various.depth_value_15m'
+        trigger:
+            action: hide|empty
+            field: dive2[interrupted_stop]
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+        required: true
+
+    dive2[interrupted_stop_duration]:
+        label: 'piratmac.staycalmanddive::lang.form.interrupted_stop_duration'
+        type: number
+        step: 1
+        min: 1
+        max: 99
+        trigger:
+            action: hide|empty
+            field: dive2[interrupted_stop]
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+        required: true
+
+    dive2[interrupted_stop_surface_time]:
+        label: 'piratmac.staycalmanddive::lang.form.surface_duration'
+        type: number
+        step: 1
+        min: 1
+        max: 360
+        default: 3
+        trigger:
+            action: hide|empty
+            field: dive2[interrupted_stop]
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+        required: true
+
+    dive2[quick_ascent]:
+        label: 'piratmac.staycalmanddive::lang.form.quick_ascent'
+        type: switch
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+
+    dive2[quick_ascent_when]:
+        label: 'piratmac.staycalmanddive::lang.form.quick_ascent_when'
+        type: number
+        step: 1
+        min: 1
+        max: 360
+        trigger:
+            action: hide|empty
+            field: dive2[quick_ascent]
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+        required: true
+
+    dive2[quick_ascent_duration]:
+        label: 'piratmac.staycalmanddive::lang.form.quick_ascent_duration'
+        type: number
+        step: 1
+        min: 1
+        max: 360
+        trigger:
+            action: hide|empty
+            field: dive2[quick_ascent]
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+        required: true
+
+    dive2[quick_ascent_surface_time]:
+        label: 'piratmac.staycalmanddive::lang.form.surface_duration'
+        type: number
+        step: 1
+        min: 1
+        max: 360
+        default: 3
+        trigger:
+            action: hide|empty
+            field: dive2[quick_ascent]
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+        required: true
+
+
+    dive2[atmospheric_pressure]:
+        label: 'piratmac.staycalmanddive::lang.form.atmospheric_pressure'
+        type: number
+        default: 1
+        min: 0.1
+        max: 1
+        trigger:
+            action: hide|empty
+            field: advanced_parameters
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+
+    _dive2_end:
+        type: partial
+        path: $/piratmac/staycalmanddive/partials/_field_group_end.htm
+
+
+
+
+
+
+# Interval
+    _interval_start:
+        type: partial
+        path: $/piratmac/staycalmanddive/partials/_field_group_start.htm
+        trigger:
+            action: show
+            field: multiple_dives
+            condition: checked
+        cssClass: divecalc_center
+
+    _interval:
+        type: section
+        label: 'piratmac.staycalmanddive::lang.interval.interval'
+
+    interval[use_interval_duration]:
+        label: 'piratmac.staycalmanddive::lang.form.use_interval_duration'
+        type: switch
+        #tab: 'piratmac.staycalmanddive::lang.interval.interval'
+
+    interval[duration]:
+        label: 'piratmac.staycalmanddive::lang.form.interval_duration'
+        type: number
+        step: 1
+        min: 1
+        max: 720
+        trigger:
+            action: hide|empty
+            field: interval[use_interval_duration]
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.interval.interval'
+        required: true
+
+    interval[use_oxygen]:
+        label: 'piratmac.staycalmanddive::lang.form.use_oxygen_at_surface'
+        type: switch
+        trigger:
+            action: hide|empty
+            field: use_oxygen
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.interval.interval'
+
+    interval[oxygen_when]:
+        label: 'piratmac.staycalmanddive::lang.form.interval_oxygen_when'
+        type: dropdown
+        options:
+            start: 'piratmac.staycalmanddive::lang.form.interval_oxygen_breathing_start'
+            end: 'piratmac.staycalmanddive::lang.form.interval_oxygen_breathing_end'
+        trigger:
+            action: hide|empty
+            field: interval[use_oxygen]
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.interval.interval'
+        required: true
+
+    interval[oxygen_duration]:
+        label: 'piratmac.staycalmanddive::lang.form.interval_oxygen_duration'
+        type: number
+        trigger:
+            action: hide|empty
+            field: interval[use_oxygen]
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.interval.interval'
+        required: true
+
+    _interval_end:
+        type: partial
+        path: $/piratmac/staycalmanddive/partials/_field_group_end.htm
+
+
+
+# Dive 1
+    _dive1_start:
+        type: partial
+        path: $/piratmac/staycalmanddive/partials/_field_group_start.htm
+        cssClass: divecalc_left
+
+    _dive1:
+        type: section
+        label: 'piratmac.staycalmanddive::lang.dive.first_dive'
+
+    dive1[start_time]:
+        label: 'piratmac.staycalmanddive::lang.form.start_time'
+        type: Backend\FormWidgets\DatePicker
+        default: 10:00
+        mode: time
+        ignoreTimezone: true
+        required: true
+
+    dive1[duration]:
+        label: 'piratmac.staycalmanddive::lang.form.dive_duration'
+        comment: 'piratmac.staycalmanddive::lang.form.dive_duration_notes'
+        type: number
+        step: 1
+        min: 1
+        max: 360
+        required: true
+
+    dive1[max_depth]:
+        label: 'piratmac.staycalmanddive::lang.form.max_depth'
+        type: number
+        step: 1
+        min: 1
+        max: 65
+        required: true
+
+    dive1[depth_when_ascent_starts]:
+        label: 'piratmac.staycalmanddive::lang.form.depth_when_ascent_starts'
+        comment: 'piratmac.staycalmanddive::lang.form.depth_when_ascent_starts_notes'
+        type: number
+        step: 1
+        min: 1
+        max: 65
+
+    dive1[use_oxygen]:
+        label: 'piratmac.staycalmanddive::lang.form.oxygen_at_stops'
+        type: switch
+        trigger:
+            action: hide|empty
+            field: use_oxygen
+            condition: unchecked
+
+    dive1[nitrox_ratio]:
+        label: 'piratmac.staycalmanddive::lang.form.nitrox_ratio'
+        type: number
+        step: 1
+        min: 1
+        max: 99
+        trigger:
+            action: hide|empty
+            field: use_nitrox
+            condition: unchecked
+
+    dive1[air_nitrogen_ratio]:
+        label: 'piratmac.staycalmanddive::lang.form.air_nitrogen_ratio'
+        type: number
+        step: 1
+        min: 75
+        max: 85
+        default: 79
+        trigger:
+            action: hide|empty
+            field: use_nitrox
+            condition: unchecked
+        #tab: 'piratmac.staycalmanddive::lang.dive.second_dive'
+
+    dive1[interrupted_stop]:
+        label: 'piratmac.staycalmanddive::lang.form.interrupted_stop'
+        type: switch
+
+    dive1[interrupted_stop_depth]:
+        label: 'piratmac.staycalmanddive::lang.form.interrupted_stop_depth'
+        type: dropdown
+        options:
+            3: 'piratmac.staycalmanddive::lang.various.depth_value_3m'
+            6: 'piratmac.staycalmanddive::lang.various.depth_value_6m'
+            9: 'piratmac.staycalmanddive::lang.various.depth_value_9m'
+            12: 'piratmac.staycalmanddive::lang.various.depth_value_12m'
+            15: 'piratmac.staycalmanddive::lang.various.depth_value_15m'
+        trigger:
+            action: hide|empty
+            field: dive1[interrupted_stop]
+            condition: unchecked
+        required: true
+
+    dive1[interrupted_stop_duration]:
+        label: 'piratmac.staycalmanddive::lang.form.interrupted_stop_duration'
+        type: number
+        step: 1
+        min: 1
+        max: 99
+        trigger:
+            action: hide|empty
+            field: dive1[interrupted_stop]
+            condition: unchecked
+        required: true
+
+    dive1[interrupted_stop_surface_time]:
+        label: 'piratmac.staycalmanddive::lang.form.surface_duration'
+        type: number
+        step: 1
+        min: 1
+        max: 360
+        default: 3
+        trigger:
+            action: hide|empty
+            field: dive1[interrupted_stop]
+            condition: unchecked
+        required: true
+
+    dive1[quick_ascent]:
+        label: 'piratmac.staycalmanddive::lang.form.quick_ascent'
+        type: switch
+
+    dive1[quick_ascent_when]:
+        label: 'piratmac.staycalmanddive::lang.form.quick_ascent_when'
+        type: number
+        step: 1
+        min: 1
+        max: 360
+        trigger:
+            action: hide|empty
+            field: dive1[quick_ascent]
+            condition: unchecked
+        required: true
+
+    dive1[quick_ascent_duration]:
+        label: 'piratmac.staycalmanddive::lang.form.quick_ascent_duration'
+        type: number
+        step: 1
+        min: 1
+        max: 360
+        trigger:
+            action: hide|empty
+            field: dive1[quick_ascent]
+            condition: unchecked
+        required: true
+
+    dive1[quick_ascent_surface_time]:
+        label: 'piratmac.staycalmanddive::lang.form.surface_duration'
+        type: number
+        step: 1
+        min: 1
+        max: 360
+        default: 3
+        trigger:
+            action: hide|empty
+            field: dive1[quick_ascent]
+            condition: unchecked
+
+        required: true
+
+    dive1[atmospheric_pressure]:
+        label: 'piratmac.staycalmanddive::lang.form.atmospheric_pressure'
+        type: number
+        default: 1
+        min: 0.1
+        max: 1
+        trigger:
+            action: hide|empty
+            field: advanced_parameters
+            condition: unchecked
+
+
+
+
+
+
+
+    _dive1_end:
+        type: partial
+        path: $/piratmac/staycalmanddive/partials/_field_group_end.htm

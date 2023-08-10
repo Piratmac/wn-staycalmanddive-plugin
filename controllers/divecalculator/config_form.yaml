@@ -1,0 +1,7 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+name: Dive calculator
+form: $/piratmac/staycalmanddive/models/divelog/fields.yaml
+modelClass: Piratmac\Staycalmanddive\Models\DiveLog

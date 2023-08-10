@@ -1,0 +1,16 @@
+<div class="alert alert-danger hide" data-validate-error>
+    <p data-message></p>
+</div>
+
+<form role="form"
+    method="POST"
+    data-request="{{ __SELF__ }}::onCalculate"
+    >
+
+    {{ form.formRender()|raw }}
+
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit" value="register">Calculate</button>
+    </div>
+
+</form>

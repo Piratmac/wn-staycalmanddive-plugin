@@ -1,0 +1,11 @@
+plugin:
+    name: 'piratmac.staycalmanddive::lang.plugin.name'
+    description: 'piratmac.staycalmanddive::lang.plugin.description'
+    author: Piratmac
+    icon: oc-icon-anchor
+    homepage: ''
+navigation:
+    main-menu-item:
+        label: Dive Calculator
+        url: piratmac/staycalmanddive/divecalculator
+        icon: icon-book
